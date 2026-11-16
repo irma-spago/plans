@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solawave Blog Fixes Done</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--mint:#54e399;--mint-light:#7eefc1;--mint-dark:#1a7a4a;--mint-wash:#e3f7ec;--amber:#e8a13a;--amber-wash:#fbf0dd;--amber-dark:#8a5a12;--ink:#051f21;--paper:#f6f9f8;--card:#fff;--sunken:#edf2f0;--line:#dfe6e4;--muted:#56696a;--faint:#7b8d8c;
+--sans:Geist,"Helvetica Neue",Arial,sans-serif;--label:Manrope,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;--col:760px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.7 var(--sans)}
+a{color:inherit;text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--mint-dark);outline-offset:3px;border-radius:4px}
+code{font-family:var(--mono);font-size:.84em;background:var(--sunken);border:1px solid var(--line);border-radius:5px;padding:1px 6px;overflow-wrap:anywhere}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--ink)}
+.top{position:fixed;top:0;left:0;right:0;padding-top:env(safe-area-inset-top,0px);z-index:20;background:var(--ink);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+.top-in{max-width:calc(var(--col) + 32px);margin:auto;height:64px;display:flex;align-items:center;gap:var(--g,32px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.04em;text-decoration:none;flex:0 0 auto}
+.nav{display:flex;justify-content:flex-end;margin-left:auto;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1 1 0%}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:0 0 auto;font-size:13px;color:#c4d2cd;text-decoration:none;padding:7px 11px;border-radius:999px;transition:background .15s,color .15s}
+.nav a:hover,.nav a.active{background:rgba(84,227,153,.12);color:var(--mint-light)}
+@media(max-width:860px){.top-in{--g:16px}.nav{justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.nav a{transition:none}}
+
+main{max-width:var(--col);margin:0 auto;padding:calc(64px + 56px + env(safe-area-inset-top,0px)) 16px 80px}
+.eyebrow{font:600 10.5px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
+h1{font-size:34px;line-height:1.15;letter-spacing:-.025em;font-weight:500;margin:0 0 12px}
+.lede{color:var(--muted);font-size:16px;margin:0 0 28px;max-width:620px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{display:block;font-size:26px;font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.stat span{font:500 12px var(--label);color:var(--muted)}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:28px}}
+
+section{padding:48px 0 8px;border-top:1px solid var(--line);margin-top:48px}
+.head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 4px}
+h2{font-size:24px;line-height:1.25;letter-spacing:-.02em;font-weight:500;margin:0}
+.sub{color:var(--muted);margin:0 0 20px}
+h3{font-size:16px;font-weight:500;margin:28px 0 8px}
+.badge{font:700 9.5px var(--label);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--mint-wash);color:var(--mint-dark)}
+.badge.next{background:var(--amber-wash);color:var(--amber-dark)}
+
+ul.list{list-style:none;padding:0;margin:0}
+ul.list li{position:relative;padding:10px 0 10px 20px;border-bottom:1px solid var(--line)}
+ul.list li:last-child{border-bottom:0}
+ul.list li::before{content:"";position:absolute;left:2px;top:19px;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+ul.list.todo li::before{background:var(--amber)}
+ul.list b{font-weight:600}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
+.tbl th,.tbl td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl th{font:600 10.5px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);background:var(--sunken)}
+.tbl a{font-weight:500;color:var(--mint-dark)}
+.wrap{overflow-x:auto;border-radius:12px}
+
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.count{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.count b{font-size:22px;font-weight:500}
+.count p{margin:4px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55}
+@media(max-width:600px){.counts{grid-template-columns:1fr}}
+
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0}
+ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font:600 12px/24px var(--label);text-align:center}
+ol.steps .who{display:inline-block;font:700 9.5px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-left:6px}
+
+footer{max-width:var(--col);margin:0 auto;padding:24px 16px 48px;color:var(--faint);font-size:13px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in"><a class="brand" href="#top">FlyRank</a>
+<nav class="nav" aria-label="Sections"><a href="#templates">Templates</a><a href="#promos">Product promos</a><a href="#images">Images</a><a href="#authors">Authors</a><a href="#optimizations">Optimizations</a><a href="#next">Next steps</a></nav>
+</div></header>
+
+<main id="top">
+<p class="eyebrow">Solawave blog · Status update</p>
+<h1>Solawave blog fixes: done</h1>
+<p class="lede">Every topic from the blog audit plan is complete. Here's what changed, where to preview it, and the last steps once the new templates go live.</p>
+
+<div class="stats">
+<div class="stat"><b>5 / 5</b><span>Topics done</span></div>
+<div class="stat"><b>11</b><span>Old files removed</span></div>
+<div class="stat"><b>8</b><span>New files added</span></div>
+<div class="stat"><b>7</b><span>Files updated</span></div>
+</div>
+
+<section id="templates">
+<p class="eyebrow">01 / Templates</p>
+<div class="head"><h2>Resources page and template cleanup</h2><span class="badge">Done</span></div>
+<p class="sub">One article template, one blog template, a new Resources page, and author pages built on the same system</p>
+
+<div class="counts">
+<div class="count"><b>11</b> removed<p>The old FlyRank article, blog and author sections, their templates, and the scripts only they used.</p></div>
+<div class="count"><b>8</b> added<p>Shared content styles, one post card and one author card, plus the Resources, Authors index and Author page sections and templates.</p></div>
+<div class="count"><b>7</b> updated<p>Article and blog pages rebuilt, templates pointed to the new sections, duplicate structured data removed.</p></div>
+</div>
+
+<h3>What's new</h3>
+<ul class="list">
+<li><b>Article page.</b> Hero with author and published/updated dates, table of contents, share links, collection promo, author box, related posts, and structured data.</li>
+<li><b>Blog page.</b> Search, a featured post, post cards with excerpt and author, pagination, and structured data.</li>
+<li><b>Resources page.</b> Every blog and article in one place, with a tab per blog, so Google finds all content and internal linking gets stronger.</li>
+<li><b>Authors index and author pages.</b> All authors, each author's latest posts across every blog, and links between authors.</li>
+<li><b>One codebase.</b> <code>main-article</code> and <code>main-blog</code> are now the only article and blog templates. Every content page shares the same post card, author card and styles.</li>
+<li><b>Cleaner structured data.</b> Blog and breadcrumb markup now prints once instead of twice.</li>
+</ul>
+
+<h3>Preview on the dev theme</h3>
+<div class="wrap"><table class="tbl">
+<thead><tr><th>Page</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Article</td><td><a href="https://viviwand.myshopify.com/blogs/skincare-devices/how-to-choose-the-best-red-light-therapy-wand?preview_theme_id=190081269928" target="_blank" rel="noopener">How to choose the best red light therapy wand</a></td></tr>
+<tr><td>Blog</td><td><a href="https://viviwand.myshopify.com/blogs/skincare-devices?preview_theme_id=190081269928" target="_blank" rel="noopener">Skincare Devices</a></td></tr>
+<tr><td>Resources</td><td><a href="https://viviwand.myshopify.com/pages/resources?view=resources&amp;preview_theme_id=190081269928" target="_blank" rel="noopener">/pages/resources</a></td></tr>
+<tr><td>Authors index</td><td><a href="https://viviwand.myshopify.com/pages/authors?view=authors&amp;preview_theme_id=190081269928" target="_blank" rel="noopener">/pages/authors</a></td></tr>
+<tr><td>Author page</td><td><a href="https://viviwand.myshopify.com/pages/authors/dr-daniel-gould-md-ph-d?preview_theme_id=190081269928" target="_blank" rel="noopener">Dr. Daniel Gould</a></td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section id="promos">
+<p class="eyebrow">02 / Product promos</p>
+<div class="head"><h2>One product promo format</h2><span class="badge">Done</span></div>
+<p class="sub">Inline-CSS product cards replaced with topic-matched collection promos</p>
+<ul class="list">
+<li><b>Old cards removed.</b> The Solawave team and previous agency product cards built with inline CSS are gone from every article.</li>
+<li><b>Collection promo on every article.</b> Each piece now promotes the collection that fits its topic, built into the template and matching the brand.</li>
+<li><b>New Collection field on blog posts.</b> Anyone publishing content picks the relevant collection from a dropdown. No custom code needed.</li>
+</ul>
+</section>
+
+<section id="images">
+<p class="eyebrow">03 / Images</p>
+<div class="head"><h2>Replace unapproved images</h2><span class="badge">Done</span></div>
+<p class="sub">Only real, approved Solawave devices in content</p>
+<ul class="list">
+<li><b>Unapproved images replaced.</b> AI-generated images of devices that don't exist are swapped for approved Solawave images.</li>
+</ul>
+<h3>Coming next</h3>
+<ul class="list todo">
+<li><b>General images.</b> We'll regenerate the general images that don't feature light therapy devices, using images with models.</li>
+</ul>
+</section>
+
+<section id="authors">
+<p class="eyebrow">04 / Authors</p>
+<div class="head"><h2>Consistent authors</h2><span class="badge">Done</span></div>
+<p class="sub">Same authors across all content, on one set of author pages</p>
+<ul class="list">
+<li><b>Authors assigned.</b> Every content piece now uses the same authors from <code>/pages/authors</code>.</li>
+<li><b>New author box and pages.</b> The author box, authors index and author page are part of the new templates.</li>
+</ul>
+<h3>Once the new templates are live</h3>
+<ul class="list todo">
+<li><b>Remove duplicate reviewer pages</b> and redirect them to the matching author pages.</li>
+<li><b>Remove the second Author field</b> so everyone who writes content uses one field, consistently.</li>
+</ul>
+</section>
+
+<section id="optimizations">
+<p class="eyebrow">05 / Optimizations</p>
+<div class="head"><h2>Meta titles and descriptions</h2><span class="badge">Done</span></div>
+<p class="sub">Every content piece has a meta title and description that fits in search results</p>
+<ul class="list">
+<li><b>Optimized.</b> Meta titles and descriptions rewritten across all content so they no longer get truncated.</li>
+<li><b>Missing ones added.</b> Pages without a meta description now have one.</li>
+</ul>
+<h3>Coming next</h3>
+<ul class="list todo">
+<li><b>Excerpts.</b> We'll update article excerpts, which now show on post cards across the blog, Resources and author pages.</li>
+<li><b>Copy.</b> We'll improve thin copy, starting with pages that perform well but have room to grow.</li>
+</ul>
+</section>
+
+<section id="next">
+<p class="eyebrow">06 / Next steps</p>
+<div class="head"><h2>What happens next</h2></div>
+<p class="sub">The last steps to wrap up the blog cleanup</p>
+<ol class="steps">
+<li>Review the dev theme previews and publish the new templates.<span class="who">Solawave</span></li>
+<li>Link the Resources page from the footer, and the header or homepage if you'd like.<span class="who">Solawave</span></li>
+<li>Remove the duplicate reviewer pages and redirect them to the author pages.<span class="who">FlyRank</span></li>
+<li>Remove the second Author field from articles.<span class="who">FlyRank</span></li>
+<li>Regenerate general images with models.<span class="who">FlyRank</span></li>
+<li>Update excerpts and copy across content.<span class="who">FlyRank</span></li>
+</ol>
+</section>
+</main>
+<footer>FlyRank · Solawave blog update · November 2026</footer>
+<script>
+(function(){var links=[].slice.call(document.querySelectorAll('.nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function set(i){links.forEach(function(a,j){var on=j===i;a.classList.toggle('active',on);if(on){a.setAttribute('aria-current','true');}else a.removeAttribute('aria-current')})}
+function spy(){var y=120,cur=-1;secs.forEach(function(s,i){if(s&&s.getBoundingClientRect().top<=y)cur=i});
+if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-2)cur=secs.length-1;set(cur)}
+window.addEventListener('scroll',spy,{passive:true});window.addEventListener('resize',spy);spy();})();
+</script>
+</body>
+</html>
