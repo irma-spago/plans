@@ -1,0 +1,184 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Helimeds Traffic Decline</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: single 760px column, fixed dark top bar with section nav, stat tiles, then numbered sections */
+:root{--mint:#54e399;--mint-light:#7eefc1;--mint-dark:#1a7a4a;--mint-wash:#e3f7ec;--amber:#e8a13a;--amber-wash:#fbf0dd;--amber-dark:#8a5a12;--red:#c2462f;--ink:#051f21;--bar:#051f21;--bar-text:#c4d2cd;--paper:#f6f9f8;--card:#fff;--sunken:#edf2f0;--line:#dfe6e4;--muted:#56696a;--faint:#7b8d8c;--step-bg:#051f21;--step-fg:#fff;
+--sans:Geist,"Helvetica Neue",Arial,sans-serif;--label:Manrope,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;--col:760px}
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.7 var(--sans)}
+a{color:inherit;text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--mint-dark);outline-offset:3px;border-radius:4px}
+code{font-family:var(--mono);font-size:.84em;background:var(--sunken);border:1px solid var(--line);border-radius:5px;padding:1px 6px;overflow-wrap:anywhere}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bar)}
+.top{position:fixed;top:0;left:0;right:0;padding-top:env(safe-area-inset-top,0px);z-index:20;background:var(--bar);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+.top-in{max-width:calc(var(--col) + 32px);margin:auto;height:64px;display:flex;align-items:center;gap:var(--g,32px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.04em;text-decoration:none;flex:0 0 auto;color:#fff}
+.nav{display:flex;justify-content:flex-end;margin-left:auto;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1 1 0%}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:0 0 auto;font-size:13px;color:var(--bar-text);text-decoration:none;padding:7px 11px;border-radius:999px;transition:background .15s,color .15s}
+.nav a:hover,.nav a.active{background:rgba(84,227,153,.12);color:var(--mint-light)}
+@media(max-width:860px){.top-in{--g:16px}.nav{justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.nav a{transition:none}}
+
+main{max-width:calc(var(--col) + 32px);margin:0 auto;padding-top:calc(64px + 56px + env(safe-area-inset-top,0px));padding-bottom:80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:600 10.5px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
+h1{font-size:34px;line-height:1.15;letter-spacing:-.025em;font-weight:500;margin:0 0 12px;text-wrap:balance}
+.lede{color:var(--muted);font-size:16px;margin:0 0 28px;max-width:620px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{display:block;font-size:26px;font-weight:500;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font:500 12px var(--label);color:var(--muted)}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:28px}}
+
+section{padding:48px 0 8px;border-top:1px solid var(--line);margin-top:48px}
+.head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 4px}
+h2{font-size:24px;line-height:1.25;letter-spacing:-.02em;font-weight:500;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 20px}
+h3{font-size:16px;font-weight:500;margin:28px 0 8px}
+.badge{font:700 9.5px var(--label);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--mint-wash);color:var(--mint-dark)}
+.badge.next{background:var(--amber-wash);color:var(--amber-dark)}
+
+ul.list{list-style:none;padding:0;margin:0}
+ul.list li{position:relative;padding:10px 0 10px 20px;border-bottom:1px solid var(--line)}
+ul.list li:last-child{border-bottom:0}
+ul.list li::before{content:"";position:absolute;left:2px;top:19px;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+ul.list.todo li::before{background:var(--amber)}
+ul.list b{font-weight:600}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
+.tbl th,.tbl td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl th{font:600 10.5px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);background:var(--sunken);white-space:nowrap}
+.tbl a{font-weight:500;color:var(--mint-dark)}
+.tbl td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.wrap{overflow-x:auto;border-radius:12px}
+
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.count{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.count b{font-size:22px;font-weight:500}
+.count p{margin:4px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55}
+@media(max-width:600px){.counts{grid-template-columns:1fr}}
+
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0}
+ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:24px;height:24px;border-radius:50%;background:var(--step-bg);color:var(--step-fg);font:600 12px/24px var(--label);text-align:center}
+
+footer{max-width:var(--col);margin:0 auto;padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--faint);font-size:13px;border-top:1px solid var(--line)}
+footer a{color:var(--muted)}
+</style>
+
+<header class="top"><div class="top-in"><a class="brand" href="#top">FlyRank</a>
+<nav class="nav" aria-label="Sections"><a href="#urls">URLs</a><a href="#topics">Topics</a><a href="#technical">Technical</a><a href="#causes">Causes</a><a href="#next">Next steps</a></nav>
+</div></header>
+
+<main id="top">
+<p class="eyebrow">Helimeds blog · Traffic review</p>
+<h1>Helimeds traffic decline after Nov 10</h1>
+<p class="lede">54 blog URLs lost 10 or more clicks in the last 7 days. All of them are technically sound, and 53 of 54 lost impressions too, so the likeliest cause is Google's <a href="https://onward.justia.com/googles-november-2026-core-algorithm-update-is-now-rolling-out/" target="_blank" rel="noopener">November 2026 core update</a>.</p>
+
+<div class="stats">
+<div class="stat"><b>54</b><span>URLs declining</span></div>
+<div class="stat"><b>−44%</b><span>Clicks (4,187 → 2,326)</span></div>
+<div class="stat"><b>−38%</b><span>Impressions (483k → 301k)</span></div>
+<div class="stat"><b>0</b><span>Technical issues</span></div>
+</div>
+
+<section id="urls">
+<p class="eyebrow">01 / URLs</p>
+<div class="head"><h2>The 20 biggest decliners</h2></div>
+<p class="sub">Last 7 days vs the previous 7 days, sorted by clicks lost. These 20 account for 1,342 of the 1,861 clicks lost.</p>
+<div class="wrap"><table class="tbl">
+<thead><tr><th>URL</th><th>Clicks before</th><th>Clicks now</th><th>Change</th></tr></thead>
+<tbody id="rows"></tbody>
+</table></div>
+</section>
+
+<section id="topics">
+<p class="eyebrow">02 / Topics</p>
+<div class="head"><h2>All 54 URLs by topic</h2></div>
+<p class="sub">Every topic dropped by a similar amount, which points to a sitewide cause rather than one content area</p>
+<div class="wrap"><table class="tbl">
+<thead><tr><th>Topic</th><th>URLs</th><th>Clicks before</th><th>Clicks now</th><th>Change</th></tr></thead>
+<tbody>
+<tr><td>GLP-1 and weight loss</td><td class="n">17</td><td class="n">1,187</td><td class="n">625</td><td class="n">−47%</td></tr>
+<tr><td>Peptides</td><td class="n">12</td><td class="n">1,583</td><td class="n">986</td><td class="n">−38%</td></tr>
+<tr><td>Erectile dysfunction</td><td class="n">14</td><td class="n">997</td><td class="n">540</td><td class="n">−46%</td></tr>
+<tr><td>NAD+, B12 and supplements</td><td class="n">11</td><td class="n">420</td><td class="n">175</td><td class="n">−58%</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section id="technical">
+<p class="eyebrow">03 / Technical</p>
+<div class="head"><h2>Technical checks</h2><span class="badge">Clean</span></div>
+<p class="sub">All 54 pages fetched on Nov 16. No technical issue explains the drop.</p>
+<div class="wrap"><table class="tbl">
+<thead><tr><th>Check</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>HTTP status</td><td>200 on all 54, no redirects</td></tr>
+<tr><td>Indexability</td><td>No noindex meta or X-Robots-Tag; robots.txt allows all</td></tr>
+<tr><td>Canonical</td><td>Self-referencing on all 54</td></tr>
+<tr><td>Sitemap</td><td>All 54 listed</td></tr>
+<tr><td>Content</td><td>1,000–4,000 words, medical reviewer byline</td></tr>
+</tbody>
+</table></div>
+<h3>Minor issues</h3>
+<ul class="list todo">
+<li><b>Slug typos.</b> <code>aildenafil-vs-adalafil</code>, <code>does-sidelafil-expire</code> and <code>does-jaridance-cause-weight-loss</code> misspell the drug names.</li>
+<li><b>Slug mismatch.</b> <code>does-tadalafil-make-you-stay-longer</code> doesn't match its title ("last longer").</li>
+</ul>
+</section>
+
+<section id="causes">
+<p class="eyebrow">04 / Causes</p>
+<div class="head"><h2>Possible causes</h2></div>
+<p class="sub">Ranked from most to least likely</p>
+<ol class="steps">
+<li><b>November 2026 core update.</b> The drop starts Nov 10, the update's start date. All four topics fell 38–58%, and core updates hit health and medication content hardest.</li>
+<li><b>Unapproved peptide content.</b> 12 of the 54 are peptide guides (sermorelin, Semax, BPC-157, KPV, TB-500, epitalon). Dosing advice for unapproved substances from a site that sells treatments faces a high trust bar.</li>
+<li><b>Thin sourcing.</b> Several pages cite 1–3 outside sources, including how-to-take-blue-chew, can-i-take-nad-and-nac-together, how-often-can-you-take-tadalafil-5-mg and should-nad-be-taken-on-an-empty-stomach.</li>
+<li><b>Outdated pages.</b> 6 pages are still dated 2024: wegovy-coupons, wegovy-patient-assistance, zepbound-side-effects, guide-to-ozempic-injection-sites, semaglutide-dosage and trulicity-dosing. wegovy-coupons still quotes Wegovy at about $1,430 a month.</li>
+<li><b>Official and big medical sites win.</b> Brand, coupon and side-effect queries (Wegovy, Ozempic, Zepbound, BlueChew) compete with manufacturer sites, drug labels and large publishers.</li>
+<li><b>Weak date signals.</b> 21 of 54 posts show Oct 15, 2026 as their publish date with no separate update date, and 146 blog URLs share one sitemap lastmod (Oct 21). Google may ignore these freshness signals.</li>
+</ol>
+</section>
+
+<section id="next">
+<p class="eyebrow">05 / Next steps</p>
+<div class="head"><h2>What happens next</h2></div>
+<p class="sub">Recommended once the update settles</p>
+<ul class="list todo">
+<li><b>Wait for the rollout to finish</b> (about two weeks) before large changes.</li>
+<li><b>Strengthen the peptide guides</b> with clinical citations and clearer evidence limits.</li>
+<li><b>Add sources</b> to the pages with 1–3 outside citations.</li>
+<li><b>Refresh the 6 pages dated 2024</b>, starting with wegovy-coupons and wegovy-patient-assistance.</li>
+<li><b>Fix date signals.</b> Show real "last updated" dates and set sitemap lastmod only when a page changes.</li>
+<li><b>Fix the 3 slug typos</b> with 301 redirects.</li>
+</ul>
+</section>
+</main>
+<footer>FlyRank · Helimeds traffic review · November 2026 · Sources: <a href="https://docs.google.com/spreadsheets/d/1TiUD4n6bQiWQe3PH_z5bP1QB8IxeeZ27y7eajYkcHI8/edit" target="_blank" rel="noopener">GSC export</a>, <a href="https://onward.justia.com/googles-november-2026-core-algorithm-update-is-now-rolling-out/" target="_blank" rel="noopener">Justia</a>, <a href="https://www.adlift.com/blog/googles-november-2026-core-update-2-week-rollout-begins/" target="_blank" rel="noopener">Adlift</a></footer>
+<script>
+(function(){
+var d=[["sermorelin-dosage",361,183,11077,6726],["ozempic-to-mounjaro-conversion-chart",451,290,8178,6114],["semax-dosage",334,173,8209,5366],["does-tadalafil-make-you-stay-longer",147,65,14847,9487],["does-compounded-tirzepatide-need-to-be-refrigerated",219,148,16218,15303],["best-time-of-day-to-take-semaglutide",167,98,6767,4082],["how-long-does-sildenafil-last",111,42,27487,11312],["bpc-157-on-empty-stomach",195,130,6836,4802],["tadalafil-20-mg",189,124,24795,19793],["kpv-peptide",205,148,18298,15599],["best-time-to-take-nad-plus",81,31,8065,4367],["aildenafil-vs-adalafil",61,18,9408,4315],["bluechew-side-effects",87,46,77047,31670],["b12-injections-before-and-after",53,12,3142,2774],["vitamin-b12-benefits-and-side-effects",69,29,20014,12089],["tb-500-peptide",37,5,9274,2666],["missed-ozempic-dose-side-effects",35,3,5339,1155],["wegovy-coupons",36,5,3979,1215],["can-you-take-tadalafil-and-sildenafil-together",63,36,5791,3327],["tadalafil-side-effects",53,26,5947,3990]];
+var pc=function(a,b){return '−'+Math.abs(Math.round((a-b)/b*100))+'%'};
+document.getElementById('rows').innerHTML=d.map(function(r){return '<tr><td><a href="https://www.helimeds.com/blog/'+r[0]+'" target="_blank" rel="noopener">'+r[0]+'</a></td><td class="n">'+r[1]+'</td><td class="n">'+r[2]+'</td><td class="n">'+pc(r[2],r[1])+'</td></tr>'}).join('');
+var links=[].slice.call(document.querySelectorAll('.nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function set(i){links.forEach(function(a,j){var on=j===i;a.classList.toggle('active',on);if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')})}
+function spy(){var y=120,cur=-1;secs.forEach(function(s,i){if(s&&s.getBoundingClientRect().top<=y)cur=i});
+if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-2)cur=secs.length-1;set(cur)}
+window.addEventListener('scroll',spy,{passive:true});window.addEventListener('resize',spy);spy();
+})();
+</script>
+
+</body></html>
