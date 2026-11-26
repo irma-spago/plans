@@ -1,0 +1,251 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Korendy Publishing Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap">
+<style>
+/* Layout: single 760px column, fixed dark top bar with section nav, stat tiles, then numbered sections (matches the Nov 2026 traffic review) */
+:root{--mint:#54e399;--mint-light:#7eefc1;--mint-dark:#1a7a4a;--mint-wash:#e3f7ec;--amber:#e8a13a;--amber-wash:#fbf0dd;--amber-dark:#8a5a12;--red:#c2462f;--red-wash:#f8e4df;--ink:#051f21;--bar:#051f21;--bar-text:#c4d2cd;--paper:#f6f9f8;--card:#fff;--sunken:#edf2f0;--line:#dfe6e4;--muted:#56696a;--faint:#7b8d8c;--step-bg:#051f21;--step-fg:#fff;
+--sans:Geist,"Helvetica Neue",Arial,sans-serif;--label:Manrope,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;--col:960px}
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.7 var(--sans)}
+a{color:inherit;text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--mint-dark);outline-offset:3px;border-radius:4px}
+code{font-family:var(--mono);font-size:.84em;background:var(--sunken);border:1px solid var(--line);border-radius:5px;padding:1px 6px;overflow-wrap:anywhere}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bar)}
+.top{position:fixed;top:0;left:0;right:0;padding-top:env(safe-area-inset-top,0px);z-index:20;background:var(--bar);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+.top-in{max-width:calc(var(--col) + 32px);margin:auto;height:64px;display:flex;align-items:center;gap:var(--g,32px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.04em;text-decoration:none;flex:0 0 auto;color:#fff}
+.nav{display:flex;justify-content:flex-end;margin-left:auto;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1 1 0%}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:0 0 auto;font-size:13px;color:var(--bar-text);text-decoration:none;padding:7px 11px;border-radius:999px;transition:background .15s,color .15s}
+.nav a:hover,.nav a.active{background:rgba(84,227,153,.12);color:var(--mint-light)}
+@media(max-width:860px){.top-in{--g:16px}.nav{justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.nav a{transition:none}}
+
+main{max-width:calc(var(--col) + 32px);margin:0 auto;padding-top:calc(64px + 56px + env(safe-area-inset-top,0px));padding-bottom:80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:600 10.5px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
+h1{font-size:34px;line-height:1.15;letter-spacing:-.025em;font-weight:500;margin:0 0 12px;text-wrap:balance}
+.lede{color:var(--muted);font-size:16px;margin:0 0 28px;max-width:720px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{display:block;font-size:26px;font-weight:500;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:6px;font:500 12px/1.4 var(--label);color:var(--muted)}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:28px}}
+
+section{padding:48px 0 8px;border-top:1px solid var(--line);margin-top:48px}
+.head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 4px}
+h2{font-size:24px;line-height:1.25;letter-spacing:-.02em;font-weight:500;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 20px}
+h3{font-size:16px;font-weight:500;margin:28px 0 8px}
+.badge{font:700 9.5px var(--label);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--mint-wash);color:var(--mint-dark);white-space:nowrap}
+.badge.next{background:var(--amber-wash);color:var(--amber-dark)}
+.badge.cut{background:var(--red-wash);color:var(--red)}
+
+ul.list{list-style:none;padding:0;margin:0}
+ul.list li{position:relative;padding:10px 0 10px 20px;border-bottom:1px solid var(--line)}
+ul.list li:last-child{border-bottom:0}
+ul.list li::before{content:"";position:absolute;left:2px;top:19px;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+ul.list.todo li::before{background:var(--amber)}
+ul.list.cut li::before{background:var(--red)}
+ul.list b{font-weight:600}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
+.tbl th,.tbl td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl th{font:600 10.5px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);background:var(--sunken);white-space:nowrap}
+.tbl a{font-weight:500;color:var(--mint-dark)}
+.tbl td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl td.dn{color:var(--red)}
+.tbl td.up{color:var(--mint-dark)}
+.tbl .m{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.wrap{overflow-x:auto;border-radius:12px}
+
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.count{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.count b{font-size:22px;font-weight:500}
+.count p strong{font-weight:600}
+.count p{margin:4px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55}
+@media(max-width:600px){.counts{grid-template-columns:1fr}}
+
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0}
+ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:24px;height:24px;border-radius:50%;background:var(--step-bg);color:var(--step-fg);font:600 12px/24px var(--label);text-align:center}
+
+.week{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 6px;margin:0 0 14px}
+.week-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.week-h h3{margin:0;font-size:17px}
+.week-h .when{font:600 11px var(--label);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.week > p{color:var(--muted);margin:4px 0 12px;font-size:14px}
+.week .tbl{border:0;border-radius:0;border-top:1px solid var(--line)}
+.week .tbl th{background:transparent}
+.week .wrap{margin:0 -18px;border-radius:0}
+.tag{font:600 10px var(--label);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.tag{font:600 10px var(--label);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+
+footer{max-width:var(--col);margin:0 auto;padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--faint);font-size:13px;border-top:1px solid var(--line)}
+footer a{color:var(--muted)}
+
+.prompt{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--mint);border-radius:0 12px 12px 0;padding:14px 18px;margin:12px 0 16px;font-family:var(--mono);font-size:13.5px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.files{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 16px}
+.file{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.file code{font-size:13px}
+.file p{margin:6px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55}
+@media(max-width:600px){.files{grid-template-columns:1fr}}
+.note{background:var(--amber-wash);color:var(--amber-dark);border-radius:10px;padding:10px 14px;font-size:14px;margin:12px 0}
+.path{font:600 13px var(--label);background:var(--sunken);border:1px solid var(--line);border-radius:6px;padding:1px 7px;white-space:nowrap}
+.tr{color:var(--faint);font-size:13px}
+ul.check{list-style:none;padding:0;margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px}
+ul.check li{border-bottom:1px solid var(--line)}
+ul.check li:last-child{border-bottom:0}
+ul.check label{display:flex;gap:12px;align-items:flex-start;padding:11px 16px;cursor:pointer}
+ul.check input{margin-top:5px;width:16px;height:16px;accent-color:var(--mint-dark);flex:0 0 auto}
+ul.check input:checked + span{color:var(--faint);text-decoration:line-through}
+.check-h{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 10px}
+.btn{font:600 12px var(--label);border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:6px 12px;cursor:pointer}
+.btn:hover{color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--mint-dark);outline-offset:2px}
+</style>
+
+<header class="top"><div class="top-in"><a class="brand" href="#top">FlyRank</a>
+<nav class="nav" aria-label="Sections"><a href="#brief">Brief</a><a href="#ai">Ask the AI</a><a href="#shopify">Shopify</a><a href="#check">Checklist</a></nav>
+</div></header>
+
+<main id="top">
+<p class="eyebrow">Korendy blog · Publishing guide</p>
+<h1>How to publish a blog post</h1>
+<p class="lede">This guide walks you through writing a blog post with an AI tool and publishing it in Shopify. The AI writes the post content and its colours; you paste them into the right places and fill in the post's settings.</p>
+
+<div class="counts">
+<div class="count"><b>The AI guide</b><p><code>content-guide-ai.md</code> tells the AI tool exactly how to write a post. Always give it to the AI together with your request.</p></div>
+<div class="count"><b>Shopify access</b><p>To <span class="path">Online Store → Blog posts</span><br><span class="tr">Turkish admin: Online Mağaza → Blog gönderileri</span></p></div>
+<div class="count"><b>4 steps</b><p>Prepare a brief, ask the AI, create the post in Shopify, then check it before publishing.</p></div>
+</div>
+
+<section id="brief">
+<p class="eyebrow">01 / Brief</p>
+<div class="head"><h2>Prepare your brief</h2></div>
+<p class="sub">Collect these before asking the AI</p>
+<div class="wrap"><table class="tbl">
+<thead><tr><th>What</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Topic</td><td>Niacinamide nedir, cilde ne yapar?</td></tr>
+<tr><td>Main keyword <span class="m">What people search for</span></td><td>niacinamide serum</td></tr>
+<tr><td>Target reader</td><td>Yağlı ve karma ciltler, K-beauty'ye yeni başlayanlar</td></tr>
+<tr><td>Products to feature <span class="m">Links</span></td><td><code>/products/…</code>, <code>/products/…</code></td></tr>
+<tr><td>Collection to promote <span class="m">Link, optional</span></td><td><code>/collections/niacinamide</code></td></tr>
+<tr><td>Primary colour <span class="m">Optional</span></td><td><code>#2f7d5b</code>. Leave empty for Korendy pink</td></tr>
+<tr><td>Anything else</td><td>Tone, length, things to mention or avoid</td></tr>
+</tbody>
+</table></div>
+
+<h3>Choosing a primary colour</h3>
+<ul class="list">
+<li>Pick one colour that fits the post's topic, for example green for a green-tea post or orange for a ginseng post.</li>
+<li>The AI builds the soft backgrounds and borders from it.</li>
+<li>Mid or dark colours work best; very light colours are darkened automatically so text stays readable.</li>
+</ul>
+</section>
+
+<section id="ai">
+<p class="eyebrow">02 / Ask the AI</p>
+<div class="head"><h2>Ask the AI to write the post</h2></div>
+<p class="sub">Claude, ChatGPT or another AI tool</p>
+<ol class="steps">
+<li>Open your AI tool.</li>
+<li>Attach or paste the <b>AI guide</b>.</li>
+<li>Paste your brief. For example:
+<div class="prompt">Using the attached guide, write a blog post.
+Topic: … · Main keyword: … · Target reader: … · Products: … · Collection: … · Primary colour: …</div></li>
+<li>The AI answers with <b>three files</b>:
+<div class="files">
+<div class="file"><code>post-body.html</code><p>The post content.</p></div>
+<div class="file"><code>post-colors.css</code><p>The post's colours.</p></div>
+<div class="file"><code>post-meta.txt</code><p>The title and the description.</p></div>
+</div></li>
+<li>Read the text before publishing. Check product names, claims and links. Ask the AI to change anything that isn't right.</li>
+</ol>
+</section>
+
+<section id="shopify">
+<p class="eyebrow">03 / Shopify</p>
+<div class="head"><h2>Create the post in Shopify</h2></div>
+<p class="sub">Go to <span class="path">Online Store → Blog posts → Add blog post</span>, or open an existing post.</p>
+
+<h3>Title</h3>
+<p>Copy the <b>Title</b> line from <code>post-meta.txt</code> into the <b>Title</b> field. This is the page's main heading, and the same text is used as the SEO title below. Don't add the title to the content.</p>
+
+<h3>Content: paste <code>post-body.html</code> here</h3>
+<ol class="steps">
+<li>In the <b>Content</b> editor, click the <b><code>&lt;&gt;</code> (Show HTML)</b> button.</li>
+<li>Delete anything in the box and paste the whole <code>post-body.html</code>.</li>
+<li>Click <code>&lt;&gt;</code> again to see the result.</li>
+</ol>
+<p class="note">Avoid editing these posts in the visual editor: it can change the HTML. Make changes in the <code>&lt;&gt;</code> view, or ask the AI.</p>
+
+<h3>Excerpt</h3>
+<p>Copy the <b>Description</b> line from <code>post-meta.txt</code> into the <b>Excerpt</b> field <span class="tr">(Turkish: Alıntı)</span>. It's 1–2 sentences (about 140–160 characters) that sum up the post and make people want to read it; the same text is used as the meta description below.</p>
+<p>The excerpt appears under the title on the post page and on the blog cards. Don't copy the first paragraph word for word.</p>
+
+<h3>Featured image</h3>
+<p>Upload the post's main image in <b>Featured image</b>.</p>
+<ul class="list">
+<li><b>Size.</b> A landscape image at least 1600px wide works best.</li>
+<li><b>Alt text.</b> Describe what's in the picture.</li>
+<li><b>Don't repeat it.</b> The image is shown at the top of the post automatically, so it shouldn't appear in the content.</li>
+</ul>
+
+<h3>Post fields</h3>
+<p>In the <b>Metafields</b> section at the bottom of the post page:</p>
+<div class="wrap"><table class="tbl">
+<thead><tr><th>Field</th><th>What to do</th></tr></thead>
+<tbody>
+<tr><td><b>Yazar</b></td><td>Pick the author. Their name, photo and bio appear on the post.</td></tr>
+<tr><td><b>Koleksiyon</b></td><td>Pick a collection to show a product slider inside the post. <b>Leave it empty</b> if the content already has product cards or a collection promo, so products don't appear twice.</td></tr>
+<tr><td><b>Post colors</b></td><td>Paste the whole <code>post-colors.css</code>. <b>Leave it empty</b> to use the standard Korendy pink.</td></tr>
+</tbody>
+</table></div>
+
+<h3>Search engine listing (SEO)</h3>
+<p>Scroll down to <b>Search engine listing</b> and click <b>Edit</b> <span class="tr">(Turkish: Arama motoru listesi → Düzenle)</span>:</p>
+<ol class="steps">
+<li><b>Page title:</b> paste the <b>Title</b> line from <code>post-meta.txt</code>.</li>
+<li><b>Meta description:</b> paste the <b>Description</b> line from <code>post-meta.txt</code>.</li>
+<li><b>URL handle:</b> don't change it. Leave it as Shopify creates it from the title.</li>
+</ol>
+
+<h3>Blog, tags and publishing</h3>
+<ul class="list">
+<li><b>Blog.</b> Choose the right blog, for example K-BLOG, Rutinler or Cilt Dengesi.</li>
+<li><b>Tags.</b> Add 2–5 relevant tags if your team uses them.</li>
+<li><b>Visibility.</b> Set it to visible, or schedule a date. Save, then preview the post.</li>
+</ul>
+</section>
+
+<section id="check">
+<p class="eyebrow">04 / Checklist</p>
+<div class="head"><h2>Check before publishing</h2></div>
+<p class="sub">Go through each item before the post goes live</p>
+<ul class="list">
+<li>The title is set and not repeated in the content</li>
+<li>The content was pasted in the <code>&lt;&gt;</code> view; headings, product cards and the closing block look right</li>
+<li>Title (40–60 characters, no brand name) in both the Title field and the SEO page title</li>
+<li>Featured image added, with alt text, and not repeated in the content</li>
+<li>Description (140–160 characters) in both the Excerpt field and the meta description</li>
+<li>Yazar picked; Koleksiyon left empty if the post has its own product cards</li>
+<li>Post colors pasted, or left empty for pink</li>
+<li>Product links open the right products</li>
+<li>Checked on a phone: product cards, buttons and images</li>
+</ul>
+</section>
+</main>
+
+<footer>FlyRank · Korendy blog publishing guide</footer>
+
+</body></html>
