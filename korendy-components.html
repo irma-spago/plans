@@ -1,0 +1,1746 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Korendy blog components</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+/* Base page: stands in for the Korendy theme (Roboto text, Old Standard TT headings) */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: #ffffff; color: #000000; font-family: "Roboto", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+h1, h2, h4, h5, h6 { font-family: "Old Standard TT", serif; }
+img { max-width: 100%; }
+
+/* ---- content-style.css from the Korendy dev theme, 2026-11-26 ---- */
+/* ==========================================================================
+   content-style.css
+   Shared tokens and components for: author index, author page,
+   resources, blog and article sections.
+   Each section loads it at the top:
+   {{ 'content-style.css' | asset_url | stylesheet_tag }}
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Headings (8pt grid) */
+  --heading-xl: 48px;
+  --heading-l: 40px;
+  --heading-m: 32px;
+  --heading-s: 24px;
+  --heading-xs: 20px;
+
+  --heading-weight: 400;
+  --heading-line-height: 1.2;
+
+  /* Text */
+  --paragraph-s: 14px;
+  --paragraph-m: 16px;
+  --paragraph-l: 18px;
+  --paragraph-weight: 400;
+  --paragraph-line-height: 1.5;
+
+  /* Gaps */
+  --gap-xl: 48px;
+  --gap-l: 40px;
+  --gap-m: 32px;
+  --gap-s: 24px;
+  --gap-xs: 16px;
+
+  /* Component padding */
+  --padding-l: 32px;
+  --padding-m: 24px;
+
+  /* Layout */
+  --content-max-width: 1400px;
+  --content-gutter: 30px;
+  --section-space: 64px;
+  --sticky-offset: 24px; /* top offset for the sticky article sidebar; add your header height if it is sticky */
+
+  /* Colors (neutral; override from theme settings if needed) */
+  /* Text: one colour; muted and subtle are the same colour at lower opacity */
+  --content-text: #000000;
+  --content-text-muted: color-mix(in srgb, var(--content-text) 80%, transparent);  /* secondary text */
+  --content-text-subtle: color-mix(in srgb, var(--content-text) 60%, transparent); /* meta, separators, disabled */
+  /* Brand colour (set per project): focus/active states, tertiary buttons, article links, accents */
+  --content-primary: #c93787;
+  --content-bg: #ffffff;
+  --content-bg-soft: #f5ecfd;
+  --content-placeholder: #ededed;
+  --content-border: #e6e6e6;
+
+  /* Radius */
+  --radius-s: 14px;
+  --radius-m: 16px;
+  --radius-l: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+}
+
+/* Breakpoints: 1024px (tablet) and 768px (mobile) */
+@media (max-width: 767px) {
+  :root {
+    --heading-xl: 40px;
+    --heading-l: 32px;
+    --heading-m: 24px;
+    --heading-s: 20px;
+    --heading-xs: 18px;
+
+    --content-gutter: 15px;
+    --section-space: 48px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Layout
+   -------------------------------------------------------------------------- */
+.content-container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--content-gutter);
+  box-sizing: border-box;
+}
+
+.content-section,
+.content-hero,
+.content-tabs {
+  font-weight: var(--paragraph-weight);
+  line-height: var(--paragraph-line-height);
+}
+
+.content-section {
+  padding: var(--section-space) 0;
+  color: var(--content-text);
+  background: var(--content-bg);
+}
+
+.content-section--divided {
+  border-top: 1px solid var(--content-border);
+}
+
+/* Theme link colors would otherwise leak in (base.css + theme settings) */
+:where(.content-section, .content-hero, .content-tabs) a { color: var(--content-text); }
+/* Links never change colour on hover; they underline */
+:where(.content-section, .content-hero, .content-tabs) a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Keep each link's own colour on hover (the theme's global a:hover would recolour them) */
+.post-card__link:hover,
+.featured-post__link:hover,
+.author-card__link:hover,
+.product-mini__title:hover,
+.collection-promo__title a:hover { color: inherit; }
+
+.post-byline__name:hover,
+.content-pagination__page:not([aria-current]):hover { color: var(--content-text); }
+
+/* Social pills: hover only turns the border brand-coloured */
+.content-pill:hover {
+  border-color: var(--content-primary);
+  color: var(--content-text);
+  text-decoration: none;
+}
+
+/* Tabs: no text underline on hover (the active tab is marked by its bottom border) */
+.content-tabs__link:hover { color: var(--content-text-muted); font-weight: var(--heading-weight); text-decoration: none; }
+.content-tabs__link[aria-current]:hover { color: var(--content-primary); }
+
+.content-toc__link:hover { color: var(--content-text-muted); text-decoration: none; font-weight: var(--heading-weight); }
+.content-toc__link[aria-current="location"]:hover { color: var(--content-text); }
+
+.content-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-l);
+}
+
+.content-stack--xl { gap: var(--gap-xl); }
+
+.content-section__header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--gap-xs);
+}
+
+/* Korendy theme: the layout pads .main-content and the theme styles h2/h3 as
+   uppercase, letter-spaced accent headings. Reset both inside content pages. */
+.main-content--content { padding-top: 0; padding-bottom: 0; }
+/* timber.scss sets .page-container { overflow: hidden }, which turns off position: sticky
+   for everything inside it (the article sidebar). clip still hides sideways overflow without
+   creating a scroll container; browsers without clip fall back to visible. */
+#PageContainer.page-container { overflow: visible; overflow-x: clip; }
+:is(.content-section, .content-hero, .content-tabs) :is(h1, h2, h3, h4, h5, h6) {
+  text-transform: none;
+  letter-spacing: normal;
+  font-style: normal;
+}
+/* timber.scss sets every <em> to 0.8em, non-italic, with !important */
+:is(.content-section, .content-hero, .content-tabs) :is(em, i) {
+  font-style: italic !important;
+  font-size: inherit !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Typography
+   -------------------------------------------------------------------------- */
+.content-h1,
+.content-h2,
+.content-h3,
+.content-h4 {
+  margin: 0;
+  font-weight: var(--heading-weight);
+  line-height: var(--heading-line-height);
+  color: var(--content-text);
+}
+
+.content-h1 { font-size: var(--heading-xl); }
+.content-h2 { font-size: var(--heading-l); }
+.content-h3 { font-size: var(--heading-m); }
+.content-h4 { font-size: var(--heading-s); }
+
+.content-lead {
+  margin: 0;
+  font-size: var(--paragraph-l);
+  font-weight: var(--paragraph-weight);
+  line-height: var(--paragraph-line-height);
+  color: var(--content-text-muted);
+}
+
+.content-text {
+  margin: 0;
+  font-size: var(--paragraph-m);
+  font-weight: var(--paragraph-weight);
+  line-height: var(--paragraph-line-height);
+  color: var(--content-text-muted);
+}
+
+.content-meta {
+  font-size: var(--paragraph-s);
+  color: var(--content-text-subtle);
+}
+
+.content-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: var(--paragraph-m);
+  font-weight: var(--heading-weight);
+  color: var(--content-primary);
+  text-decoration: none;
+}
+
+/* "View …" links keep their colour and underline their text on hover */
+.content-link:hover {
+  color: var(--content-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.content-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* --------------------------------------------------------------------------
+   4. Hero + breadcrumbs
+   -------------------------------------------------------------------------- */
+.content-hero {
+  padding: 32px 0 var(--section-space);
+  background: var(--content-bg-soft);
+  color: var(--content-text);
+}
+
+.content-hero__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xl);
+}
+
+.content-hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+  max-width: 820px;
+}
+
+/* Title block + search form (blog, resources) or byline (article) */
+.content-hero__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-m);
+}
+
+/* Centred hero layout (blog, resources: Hero block "Layout") */
+.content-hero__center .content-hero__inner { align-items: center; text-align: center; }
+.content-hero__center .content-breadcrumbs ol { justify-content: center; }
+.content-hero__center .content-hero__intro { width: 100%; align-items: center; }
+.content-hero__center .content-hero__text { align-items: center; }
+.content-hero__center content-search { width: 100%; max-width: 640px; }
+.content-hero__center .content-search { margin: 0 auto; text-align: left; }
+
+/* Two columns: text + image (article, author page) */
+.content-hero__split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-xl);
+}
+
+.content-hero__split > * {
+  flex: 1 1 480px;
+  min-width: 0;
+}
+
+.content-hero__media {
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--content-placeholder);
+}
+
+.content-hero__media--square {
+  flex: 0 1 420px;
+  aspect-ratio: 1 / 1;
+}
+
+/* Every content image fills its frame */
+.content-hero__media img,
+.post-card__media img,
+.featured-post__media img,
+.author-card__media img,
+.product-mini__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content-breadcrumbs {
+  font-size: var(--paragraph-m);
+  color: var(--content-text-subtle);
+}
+
+/* One line: earlier crumbs keep their width, the current page (e.g. a long post title) is cut with "…" */
+.content-breadcrumbs ol {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.content-breadcrumbs li + li::before {
+  content: "/";
+  margin: 0 8px;
+}
+
+.content-breadcrumbs a {
+  color: var(--content-text);
+  text-decoration: none;
+}
+
+.content-breadcrumbs a:hover { text-decoration: underline; }
+
+.content-breadcrumbs li { flex-shrink: 0; white-space: nowrap; }
+.content-breadcrumbs li:last-child { display: flex; flex-shrink: 1; min-width: 0; }
+.content-breadcrumbs [aria-current="page"] {
+  min-width: 0;
+  max-width: 40ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   5. Search
+   -------------------------------------------------------------------------- */
+content-search { display: block; }
+
+.content-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 640px;
+}
+
+.content-search__field {
+  flex: 1 1 320px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  padding: 0 20px;
+  background: var(--content-bg);
+  border: 1px solid var(--content-border);
+  border-radius: var(--radius-pill);
+  box-sizing: border-box;
+  /* Border, icon and placeholder never change; when active a 2px brand outline appears 2px outside the border */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 200ms ease;
+}
+
+.content-search__field input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: var(--paragraph-m);
+  color: var(--content-text);
+}
+
+.content-search__field svg { color: var(--content-primary); }
+.content-search__field input::placeholder { color: var(--content-text-muted); opacity: 1; }
+
+.content-search__field:focus-within { outline-color: var(--content-primary); }
+
+/* Clear button (×): shown while the field has text. 24px circle with a 44px tap area */
+.content-search__clear {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--content-bg-soft);
+  color: var(--content-text);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.content-search__clear::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+}
+
+.content-search__clear:hover,
+.content-search__clear:focus-visible {
+  background: var(--content-border);
+  color: var(--content-text);
+}
+
+.content-search__clear[hidden] { display: none; }
+
+/* Hide the browser's own clear icon so only ours shows */
+.content-search__field input::-webkit-search-cancel-button,
+.content-search__field input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Buttons
+   -------------------------------------------------------------------------- */
+.content-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--content-border);
+  background: var(--content-bg);
+  color: var(--content-text);
+  cursor: pointer;
+}
+
+/* Disabled: same border, background and opacity as the active button (overrides browser
+   defaults for disabled buttons); only the icon is greyed */
+.content-icon-button:disabled {
+  border-color: var(--content-border);
+  background: var(--content-bg);
+  opacity: 1;
+  color: var(--content-text-subtle);
+  cursor: default;
+}
+
+/* Hover only darkens the outline. Background and icon colour stay; this also overrides
+   the theme's red button:hover on <button> elements (copy link, product block arrows) */
+.content-icon-button:hover {
+  background: var(--content-bg);
+}
+
+.content-icon-button:not(:disabled):hover {
+  border-color: var(--content-primary);
+  color: var(--content-text);
+  text-decoration: none;
+}
+
+.content-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--content-border);
+  background: var(--content-bg);
+  color: var(--content-text);
+  font-size: var(--paragraph-m);
+  font-weight: var(--paragraph-weight);
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   7. Tabs (resources page)
+   -------------------------------------------------------------------------- */
+/* The bottom line is an inset shadow, not a border, so the active tab's underline
+   (a child element) paints on top of it instead of sitting above it */
+.content-tabs {
+  box-shadow: inset 0 -1px 0 var(--content-border);
+  background: var(--content-bg-soft);
+}
+
+/* Centred tabs (resources: Navigation block "Layout") */
+.content-tabs__center .content-tabs__list { justify-content: center; }
+
+.content-tabs__scroller {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.content-tabs__list {
+  display: flex;
+  gap: 8px;
+  min-width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* timber.scss gives every li a 0.25em bottom margin, which lifted the tabs off the line */
+.content-tabs__list > li { margin: 0; }
+
+.content-tabs__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 0 16px;
+  border-bottom: 2px solid transparent;
+  font-size: var(--paragraph-m);
+  font-weight: var(--paragraph-weight);
+  color: var(--content-text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.content-tabs__link[aria-current] {
+  color: var(--content-primary);
+  font-weight: var(--heading-weight);
+  border-bottom-color: var(--content-primary);
+}
+
+/* --------------------------------------------------------------------------
+   8. Post cards + grid
+   -------------------------------------------------------------------------- */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+  gap: var(--gap-xl) var(--gap-m);
+}
+
+.post-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-s);
+}
+
+.post-card__media {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--content-placeholder);
+}
+
+.post-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.post-card__title {
+  margin: 0;
+  font-size: var(--heading-s);
+  line-height: var(--heading-line-height);
+  font-weight: var(--heading-weight);
+}
+
+.post-card__excerpt {
+  margin: 0;
+  font-size: var(--paragraph-m);
+  font-weight: var(--paragraph-weight);
+  line-height: var(--paragraph-line-height);
+  color: var(--content-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Date-only line on post cards (author page, when the author is hidden) */
+.post-card__date { padding-top: 4px; }
+
+.post-byline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+  font-size: var(--paragraph-s);
+  color: var(--content-text-subtle);
+}
+
+.post-byline__avatar {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--content-placeholder);
+}
+
+.post-byline__large { font-size: var(--paragraph-m); gap: 12px; padding-top: 0; }
+.post-byline__large .post-byline__avatar { width: 44px; height: 44px; }
+.post-byline__name { font-weight: var(--heading-weight); text-decoration: none; }
+
+/* Featured post (blog, resources) */
+.featured-post {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-xl);
+}
+
+.featured-post__media {
+  display: block;
+  flex: 1 1 480px;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  background: var(--content-placeholder);
+}
+
+.featured-post__body {
+  flex: 1 1 480px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-s);
+}
+
+.featured-post__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.featured-post__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--content-bg-soft);
+  font-size: var(--paragraph-s);
+  font-weight: var(--heading-weight);
+  line-height: var(--paragraph-line-height);
+}
+
+/* --------------------------------------------------------------------------
+   9. Author cards + grid (author index, author page, article)
+   -------------------------------------------------------------------------- */
+.author-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 560px), 1fr));
+  gap: var(--gap-m);
+}
+
+.author-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-s);
+  padding: var(--padding-m);
+  background: var(--content-bg);
+  border: 1px solid var(--content-border);
+  border-radius: var(--radius-l);
+}
+
+.author-card__media {
+  display: block;
+  flex: 0 0 200px;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  background: var(--content-placeholder);
+}
+
+.author-card__body {
+  flex: 1 1 260px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-xs);
+  padding-right: 8px;
+}
+
+.author-card__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.author-card__name {
+  margin: 0;
+  font-size: var(--heading-s);
+  line-height: var(--heading-line-height);
+  font-weight: var(--heading-weight);
+}
+
+.author-card__role {
+  margin: 0;
+  font-size: var(--paragraph-m);
+  font-weight: var(--heading-weight);
+  color: var(--content-primary);
+}
+
+@media (max-width: 767px) {
+  .author-card__media { flex-basis: 100%; }
+  .author-card__body { padding-right: 0; }
+}
+
+.author-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   10. Pagination
+   -------------------------------------------------------------------------- */
+.content-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-xs);
+  padding-top: var(--gap-m);
+  border-top: 1px solid var(--content-border);
+}
+
+.content-pagination__pages {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.content-pagination__page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: var(--paragraph-m);
+  font-weight: var(--heading-weight);
+  color: var(--content-text);
+  text-decoration: none;
+}
+
+.content-pagination__page[aria-current="page"] {
+  background: var(--content-primary);
+  color: var(--content-bg);
+}
+
+.content-pagination__gap { width: 32px; text-align: center; color: var(--content-text-subtle); }
+
+.content-pagination__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--content-border);
+  font-size: var(--paragraph-m);
+  font-weight: var(--heading-weight);
+  color: var(--content-text);
+  text-decoration: none;
+  transition: border-color 150ms ease;
+}
+
+/* Previous / Next: hover only turns the border brand-coloured (like share buttons and social pills) */
+.content-pagination__step:not([aria-disabled="true"]):hover {
+  border-color: var(--content-primary);
+  color: var(--content-text);
+  text-decoration: none;
+}
+
+.content-pagination__step[aria-disabled="true"] {
+  color: var(--content-text-subtle);
+  pointer-events: none;
+}
+
+/* Mobile: Previous / Next become 44px icon buttons (labels stay for screen readers) */
+@media (max-width: 767px) {
+  .content-pagination { justify-content: center; }
+  .content-pagination__step span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .content-pagination__step { padding: 0; width: 44px; justify-content: center; }
+}
+
+/* --------------------------------------------------------------------------
+   11. Article layout: content + sidebar
+   -------------------------------------------------------------------------- */
+.article-layout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gap-xl);
+}
+
+.article-layout__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-s);
+  min-width: 0;
+}
+
+.article-layout__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-m);
+}
+
+/* Desktop: sidebar up to 360px, content takes the rest */
+@media (min-width: 1024px) {
+  .article-layout { flex-wrap: nowrap; }
+
+  .article-layout__content { flex: 1 1 0; }
+
+  .article-layout__sidebar {
+    flex: 0 1 360px;
+    position: sticky;
+    top: var(--sticky-offset);
+  }
+}
+
+/* Below 1024px: table of contents and share move above the article body */
+@media (max-width: 1023px) {
+  .article-layout__content,
+  .article-layout__sidebar { flex-basis: 100%; }
+
+  .article-layout__sidebar { order: -1; }
+}
+
+/* Article body (wrap {{ article.content }} in .content-rte) */
+.content-rte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-s);
+  font-size: var(--paragraph-l);
+  font-weight: var(--paragraph-weight);
+  line-height: var(--paragraph-line-height);
+  color: var(--content-text);
+}
+
+/* Articles with their own HTML/CSS (e.g. a wrapper with max-width: 1120px; margin: 0 auto)
+   would size to their content inside this flex column and run under the sidebar.
+   Keep every top-level block inside the column. Two classes outrank the article's own
+   single-class rules, which load later. */
+.article-layout .content-rte > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.content-rte > * { margin: 0; }
+
+/* Article headings step down one size per level: h1 (hero) xl, h2 l, h3 m, h4 s, h5-h6 xs */
+.content-rte :is(h2, h3, h4, h5, h6) {
+  margin-top: var(--gap-s);
+  font-weight: var(--heading-weight);
+  line-height: var(--heading-line-height);
+  color: var(--content-text); /* the theme colours headings itself */
+  scroll-margin-top: var(--sticky-offset);
+}
+
+.content-rte h2 { font-size: var(--heading-l); }
+.content-rte h3 { font-size: var(--heading-m); }
+.content-rte h4 { font-size: var(--heading-s); }
+.content-rte :is(h5, h6) { font-size: var(--heading-xs); }
+
+.content-rte ul,
+.content-rte ol {
+  list-style: disc;
+  padding-left: var(--gap-s);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.content-rte ol { list-style: decimal; }
+
+.content-rte a { color: var(--content-primary); text-decoration: underline; }
+
+.content-rte img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-m);
+}
+
+/* Blockquote. Overrides the theme's quote style (italic 14px, quote mark, own font set
+   with !important, padding and background) so quotes read like the article text */
+.content-rte blockquote {
+  position: static;
+  border: 0;
+  border-left: 3px solid var(--content-blockquote-border);
+  border-radius: var(--radius-m);
+  background: var(--content-blockquote-bg);
+  margin: 0;
+  text-align: left;
+  padding: 16px 16px 16px 24px;
+  font-family: inherit !important;
+  font-size: inherit;
+  font-style: normal;
+  color: var(--content-text);
+}
+
+.content-rte blockquote::before,
+.content-rte blockquote::after { content: none; }
+
+.content-rte blockquote > * { margin: 0; }
+.content-rte blockquote > * + * { margin-top: var(--gap-xs); }
+
+/* Table: rounded corners, single 1px lines, soft header row.
+   border-radius doesn't work with border-collapse: collapse, so borders are "separate" with no
+   spacing and each cell draws only its right and bottom line - it looks the same as collapsed. */
+.content-rte table {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--content-border);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  font-size: var(--paragraph-m);
+  line-height: var(--paragraph-line-height);
+}
+
+.content-rte thead { background: var(--content-bg-soft); }
+
+.content-rte :is(th, td) {
+  border: 0;
+  border-right: 1px solid var(--content-border);
+  border-bottom: 1px solid var(--content-border);
+  padding: 12px var(--gap-xs);
+  text-align: left;
+  vertical-align: top;
+}
+
+.content-rte tr > :last-child { border-right: 0; }
+.content-rte :is(tbody, tfoot) tr:last-child > *,
+.content-rte table > tr:last-child > * { border-bottom: 0; }
+
+.content-rte th {
+  font-weight: var(--heading-weight);
+  color: var(--content-text);
+}
+
+/* Table of contents */
+.content-toc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.content-sidebar-title {
+  margin: 0;
+  font-size: var(--heading-xs);
+  font-weight: var(--heading-weight);
+  line-height: var(--heading-line-height);
+  color: var(--content-text);
+}
+
+.content-toc__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 2px solid var(--content-border);
+  font-size: var(--paragraph-m);
+  line-height: var(--paragraph-line-height);
+}
+
+.content-toc__link {
+  display: flex;
+  align-items: center;
+  margin-left: -2px;
+  padding: 6px 6px 6px 12px;
+  border-left: 2px solid transparent;
+  color: var(--content-text-muted);
+  text-decoration: none;
+}
+
+.content-toc__link[aria-current="location"] {
+  border-left-color: var(--content-primary);
+  color: var(--content-text);
+  font-weight: var(--heading-weight);
+}
+
+/* Share */
+.content-share {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.content-share__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   12. Collection promo (inside article content)
+   -------------------------------------------------------------------------- */
+.collection-promo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-s);
+  margin: var(--gap-xs) 0;
+  padding: var(--padding-m);
+  border-radius: var(--radius-l);
+  background: var(--content-bg-soft);
+  line-height: var(--paragraph-line-height);
+}
+
+/* Title and arrows share one row; a long title wraps inside its own column */
+.collection-promo__header {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-xs);
+}
+
+.collection-promo__title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.collection-promo__controls { display: flex; flex-shrink: 0; gap: 8px; }
+
+.collection-promo__track {
+  display: flex;
+  gap: var(--gap-s);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.collection-promo__track::-webkit-scrollbar { display: none; }
+
+/* No card: rounded image, then title and price, like post cards */
+.product-mini {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+  box-sizing: border-box;
+}
+
+.product-mini__media {
+  display: block;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--content-placeholder);
+}
+
+.product-mini__title {
+  font-size: var(--paragraph-m);
+  font-weight: var(--heading-weight);
+  /* Long product names stop after two lines with an ellipsis */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+.product-mini__price { font-size: var(--paragraph-m); color: var(--content-text-subtle); }
+
+/* Author box at the end of an article reuses .author-card */
+.author-card--article { margin-top: var(--gap-m); }
+
+/* --------------------------------------------------------------------------
+   Card links + hover states
+   Cards are not one big link. Image and title link to the post (or profile/product);
+   the featured "Read article" and author "View profile" links too. The image and those
+   call-to-action links are hidden from keyboard and screen readers (tabindex="-1",
+   aria-hidden), so each card is one link stop with clean link text.
+   Hover: image and title (name) act as a pair - hovering either zooms the image and
+   underlines the title. "Read article" / "View profile" (content-link) only underline
+   themselves when hovered.
+   -------------------------------------------------------------------------- */
+.post-card__link,
+.featured-post__link,
+.author-card__link,
+.product-mini__title {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-byline__name:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+.post-card__media img,
+.featured-post__media img,
+.author-card__media img,
+.product-mini__media img {
+  transition: transform 300ms ease;
+}
+
+/* Post cards + featured post: gentle image zoom + title underline */
+.post-card:has(.post-card__media:hover, .post-card__link:is(:hover, :focus-visible)) .post-card__media img,
+.featured-post:has(.featured-post__media:hover, .featured-post__link:is(:hover, :focus-visible)) .featured-post__media img {
+  transform: scale(1.04);
+}
+
+.post-card:has(.post-card__media:hover, .post-card__link:is(:hover, :focus-visible)) .post-card__link,
+.featured-post:has(.featured-post__media:hover, .featured-post__link:is(:hover, :focus-visible)) .featured-post__link {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Product cards (article product block): gentle image zoom + title underline */
+.product-mini:has(.product-mini__media:hover, .product-mini__title:is(:hover, :focus-visible)) .product-mini__media img {
+  transform: scale(1.04);
+}
+
+.product-mini:has(.product-mini__media:hover, .product-mini__title:is(:hover, :focus-visible)) .product-mini__title {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Author cards: gentle image zoom + name underlined */
+.author-card:has(.author-card__media:hover, .author-card__link:is(:hover, :focus-visible)) .author-card__media img {
+  transform: scale(1.04);
+}
+
+.author-card:has(.author-card__media:hover, .author-card__link:is(:hover, :focus-visible)) .author-card__link {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-card__media img,
+  .featured-post__media img,
+  .author-card__media img,
+  .product-mini__media img { transition: none; transform: none !important; }
+  .collection-promo__track { scroll-behavior: auto; }
+}
+
+/* --------------------------------------------------------------------------
+   13. Utilities
+   -------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ==========================================================================
+   Article content components (use as classes inside article HTML)
+   - .content-img                         centred image
+   - .content-collection                  collection promo: image left, text + CTA right (vertical on phones)
+   - .content-products > .content-product product grid: 2 per row, 1 at ≤767px
+   - .content-cards > .content-card       card grid
+   - .content-cta-cards > .content-cta-card  cards with image, title, description and a tertiary link: 2 per row, 1 at ≤767px
+   - .content-box                         bordered block (note, tip, summary)
+   - .content-cta                         closing call-to-action
+   Layout (padding, radius, gaps, type sizes) is fixed here. Colours come from the
+   --content-*-* variables below, so they can be overridden per post later.
+   ========================================================================== */
+.content-rte {
+  /* Palette */
+  --tone-pink-bg: #fff1f3;
+  --tone-pink-border: #f6cfd8;
+  --tone-purple-bg: #f5ecfd;
+  --tone-purple-border: #e3cff6;
+
+  /* Component colours (defaults) */
+  --content-button-bg: var(--content-primary);
+  --content-button-text: #ffffff;
+
+  --content-collection-bg: transparent;
+  --content-collection-border: var(--tone-pink-border);
+
+  --content-product-bg: transparent;
+  --content-product-border: var(--tone-pink-border);
+  --content-product-eyebrow: var(--content-primary);
+
+  --content-card-bg: var(--tone-pink-bg);
+  --content-card-border: var(--tone-pink-border);
+
+  --content-cta-card-bg: transparent;
+  --content-cta-card-border: var(--tone-pink-border);
+  --content-cta-card-link: var(--content-primary);
+
+  --content-box-bg: var(--tone-pink-bg);
+  --content-box-border: var(--tone-pink-border);
+
+  --content-cta-bg: var(--tone-pink-bg);
+  --content-cta-border: var(--tone-pink-border);
+
+  --content-blockquote-bg: var(--tone-pink-bg);
+  --content-blockquote-border: var(--content-primary);
+}
+
+/* Components reset the article's paragraph spacing and stack their own content */
+.content-rte :is(.content-collection, .content-product, .content-card, .content-cta-card, .content-box, .content-cta) * { margin: 0; }
+.content-rte :is(.content-card, .content-box, .content-cta) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+/* ---- Image: centred, rounded corners, space below ----
+   .article-img / .article-img--product are older names for the same thing (used in one post). */
+.content-rte :is(.content-img, .article-img, .article-img--product) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 16px;
+  border-radius: var(--radius-m);
+}
+
+/* ---- Shared button: collection, product and closing CTA ---- */
+.content-rte :is(.content-collection__cta, .content-product__cta, .content-cta__button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  background: var(--content-button-bg);
+  color: var(--content-button-text);
+  font-size: var(--paragraph-m);
+  font-weight: var(--heading-weight);
+  line-height: 1.2;
+  text-decoration: none;
+}
+.content-rte :is(.content-collection__cta, .content-product__cta, .content-cta__button):hover {
+  color: var(--content-button-text);
+  text-decoration: none;
+  filter: brightness(0.92);
+}
+
+/* Shared text parts: name (linked title) and description */
+.content-rte :is(.content-collection__name, .content-product__name) {
+  font-weight: var(--heading-weight);
+  line-height: var(--heading-line-height);
+}
+/* Collection name: 24px / 20px on mobile */
+.content-rte .content-collection__name { font-size: var(--heading-s); }
+/* Product name: 20px / 18px on mobile, cut after two lines */
+.content-rte .content-product__name {
+  font-size: var(--heading-xs);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+.content-rte :is(.content-collection__name, .content-product__name) a { color: var(--content-text); text-decoration: none; }
+.content-rte :is(.content-collection__name, .content-product__name) a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.content-rte :is(.content-collection__desc, .content-product__desc) { font-size: var(--paragraph-m); color: var(--content-text-muted); }
+/* Name and description, 8px apart */
+.content-rte :is(.content-collection__text, .content-product__text) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---- Collection promo: image left, text and CTA right; vertical on phones; border only ---- */
+.content-rte .content-collection {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-s);
+  padding: var(--padding-m);
+  border: 1px solid var(--content-collection-border);
+  border-radius: var(--radius-l);
+  background: var(--content-collection-bg);
+}
+.content-rte .content-collection__media {
+  flex: 0 0 240px;
+  display: block;
+  aspect-ratio: 1;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--content-bg);
+}
+.content-rte .content-collection__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+/* Copy: text (name + description) and CTA, 16px apart */
+.content-rte .content-collection__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 575px) {
+  .content-rte .content-collection {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--gap-xs);
+    gap: var(--gap-xs);
+  }
+  .content-rte .content-collection__media { flex-basis: auto; width: 100%; aspect-ratio: 4 / 3; }
+  .content-rte .content-collection__cta { align-self: stretch; }
+}
+
+/* ---- Product grid: 2 per row, 1 at ≤767px; vertical cards, border only ---- */
+.content-rte .content-products {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-xs);
+}
+@media (max-width: 767px) {
+  .content-rte .content-products { grid-template-columns: minmax(0, 1fr); }
+}
+
+.content-rte .content-product {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+  padding: var(--padding-m);
+  border: 1px solid var(--content-product-border);
+  border-radius: var(--radius-l);
+  background: var(--content-product-bg);
+}
+.content-rte .content-product__media {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--content-bg);
+}
+.content-rte .content-product__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+}
+/* Copy: eyebrow, text (name + description), CTA, 16px apart; CTA sits at the bottom so buttons line up */
+.content-rte .content-product__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.content-rte .content-product__eyebrow {
+  font-size: var(--paragraph-s);
+  color: var(--content-product-eyebrow);
+  text-transform: uppercase;
+}
+.content-rte .content-product__cta { margin-top: auto; align-self: stretch; }
+
+/* ---- Card grid: cards with border and background ---- */
+.content-rte .content-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--gap-xs);
+}
+.content-rte .content-cards--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+
+.content-rte .content-card {
+  gap: 8px;
+  padding: var(--padding-m);
+  border: 1px solid var(--content-card-border);
+  border-radius: var(--radius-l);
+  background: var(--content-card-bg);
+}
+.content-rte .content-card img { width: 100%; height: auto; border-radius: var(--radius-m); }
+.content-rte .content-card__title {
+  font-size: var(--heading-xs);
+  font-weight: var(--heading-weight);
+  line-height: var(--heading-line-height);
+}
+.content-rte .content-card p:not([class]) { font-size: var(--paragraph-m); color: var(--content-text-muted); }
+
+/* ---- CTA cards: 2 per row, 1 at ≤767px ---- */
+.content-rte .content-cta-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-xs);
+}
+@media (max-width: 767px) {
+  .content-rte .content-cta-cards { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- CTA card: image on top, then title, description, tertiary link; 16px padding ---- */
+.content-rte .content-cta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--content-cta-card-border);
+  border-radius: var(--radius-l);
+  background: var(--content-cta-card-bg);
+}
+.content-rte .content-cta-card__media {
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+}
+.content-rte .content-cta-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+.content-rte .content-cta-card__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.content-rte .content-cta-card__title {
+  font-size: var(--heading-xs);
+  font-weight: var(--heading-weight);
+  line-height: var(--heading-line-height);
+}
+.content-rte .content-cta-card__title a { color: var(--content-text); text-decoration: none; }
+.content-rte .content-cta-card__title a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.content-rte .content-cta-card__desc { font-size: var(--paragraph-m); color: var(--content-text-muted); }
+/* Tertiary link: text with an arrow, pinned to the bottom so links line up in a row */
+.content-rte .content-cta-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: var(--paragraph-m);
+  font-weight: var(--heading-weight);
+  color: var(--content-cta-card-link);
+  text-decoration: none;
+}
+.content-rte .content-cta-card__link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.content-rte .content-cta-card__link::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3Cpath d='M566.6 342.6C579.1 330.1 579.1 309.8 566.6 297.3L406.6 137.3C394.1 124.8 373.8 124.8 361.3 137.3C348.8 149.8 348.8 170.1 361.3 182.6L466.7 288L96 288C78.3 288 64 302.3 64 320C64 337.7 78.3 352 96 352L466.7 352L361.3 457.4C348.8 469.9 348.8 490.2 361.3 502.7C373.8 515.2 394.1 515.2 406.6 502.7L566.6 342.7z'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3Cpath d='M566.6 342.6C579.1 330.1 579.1 309.8 566.6 297.3L406.6 137.3C394.1 124.8 373.8 124.8 361.3 137.3C348.8 149.8 348.8 170.1 361.3 182.6L466.7 288L96 288C78.3 288 64 302.3 64 320C64 337.7 78.3 352 96 352L466.7 352L361.3 457.4C348.8 469.9 348.8 490.2 361.3 502.7C373.8 515.2 394.1 515.2 406.6 502.7L566.6 342.7z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* ---- Bordered block (note, tip, summary): border and background ---- */
+.content-rte .content-box {
+  padding: var(--padding-m) var(--padding-l);
+  border: 1px solid var(--content-box-border);
+  border-radius: var(--radius-l);
+  background: var(--content-box-bg);
+}
+/* Box title is an <h2 class="content-box__title">: it takes the article h2 style (size, weight, font)
+   and is listed in "Bu sayfada". It does not count as a section for the product slider placement. */
+
+/* ---- Closing CTA: border and background, centred, button ---- */
+.content-rte .content-cta {
+  align-items: center;
+  text-align: center;
+  padding: var(--padding-l);
+  border: 1px solid var(--content-cta-border);
+  border-radius: var(--radius-xl);
+  background: var(--content-cta-bg);
+}
+/* CTA title is an <h2 class="content-cta__title">: it takes the article h2 style (size, weight, font)
+   and is listed in "Bu sayfada". It does not count as a section for the product slider placement. */
+.content-rte .content-cta p:not([class]) { max-width: 60ch; color: var(--content-text-muted); }
+.content-rte .content-cta__button { align-self: center; margin-top: 8px; }
+
+@media (max-width: 767px) {
+  .content-rte :is(.content-card, .content-box) { padding: var(--gap-xs) var(--padding-m); }
+  .content-rte .content-cta { padding: var(--padding-m); }
+}
+
+/* Preview only: article column width on the blog (930px plus side gutters) */
+.content-container { max-width: calc(930px + 2 * var(--content-gutter)); }
+
+/* ---- Preview page only: block headings, specs and code (not part of the theme) ---- */
+.demo { max-width: calc(930px + 2 * var(--content-gutter)); margin: 0 auto; padding: 40px var(--content-gutter) 80px; }
+.demo-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 48px; }
+.demo-nav a { padding: 8px 14px; border: 1px solid #e6e6e6; border-radius: 999px; color: #000; font-size: 14px; text-decoration: none; }
+.demo-nav a:hover { border-color: var(--content-primary); }
+.demo-block { padding: 48px 0; border-top: 1px solid #e6e6e6; scroll-margin-top: 16px; }
+.demo-block__head { margin-bottom: 20px; }
+.demo-block__title { margin: 0; font-size: 32px; font-weight: 400; line-height: 1.2; }
+.demo-block__desc { margin: 10px 0 0; max-width: 70ch; font-size: 16px; line-height: 1.5; color: rgba(0,0,0,.7); }
+@media (max-width: 767px) {
+  .demo-block__title { font-size: 26px; }
+}
+  </style>
+</head>
+<body>
+  <main class="demo">
+    <nav class="demo-nav" aria-label="Bileşenler">
+      <a href="#collection">Koleksiyon tanıtımı</a>
+      <a href="#products">Ürün kartları</a>
+      <a href="#img">Görsel</a>
+      <a href="#cards">Kartlar</a>
+      <a href="#cta-cards">CTA kartları</a>
+      <a href="#box">Çerçeveli blok</a>
+      <a href="#blockquote">Alıntı</a>
+      <a href="#cta">Kapanış CTA</a>
+    </nav>
+    <section class="demo-block" id="collection">
+      <header class="demo-block__head">
+        <h2 class="demo-block__title">Koleksiyon tanıtımı (.content-collection)</h2>
+        <p class="demo-block__desc">Bir koleksiyonu öne çıkarır: solda görsel, sağda koleksiyon adı, açıklama ve buton. Telefonda (575px ve altı) görsel üste geçer.</p>
+      </header>
+      <div class="demo-example content-rte">
+        <div class="content-collection">
+          <a class="content-collection__media" href="https://www.korendy.com.tr/collections/gunes-koruyucu-krem-mineral-kimyasal-hibrit-cesitleri"><img src="https://cdn.shopify.com/s/files/1/2357/8799/files/HolikaHolika-AloeIceCoolingSunSpraySPF50_PA_Korendy1.png?width=600" alt="En iyi Kore Güneş Kremi Çeşitleri (Su Bazlı, Mineral, Kimyasal Filtreli ve Hibrit)" loading="lazy"></a>
+          <div class="content-collection__body">
+            <div class="content-collection__text">
+              <h3 class="content-collection__name"><a href="https://www.korendy.com.tr/collections/gunes-koruyucu-krem-mineral-kimyasal-hibrit-cesitleri">Güneş Koruyucular</a></h3>
+              <p class="content-collection__desc">Mineral, kimyasal ve hibrit filtreli Kore güneş kremleri: her cilt tipi için hafif, beyaz iz bırakmayan formüller.</p>
+            </div>
+            <a class="content-collection__cta" href="https://www.korendy.com.tr/collections/gunes-koruyucu-krem-mineral-kimyasal-hibrit-cesitleri">Koleksiyonu İncele</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-block" id="products">
+      <header class="demo-block__head">
+        <h2 class="demo-block__title">Ürün kartları (.content-products / .content-product)</h2>
+        <p class="demo-block__desc">Ürün ızgarası: her kartta görsel, üst başlık, ürün adı, açıklama ve buton. Butonlar satır boyunca aynı hizada durur.</p>
+      </header>
+      <div class="demo-example content-rte">
+        <div class="content-products">
+        <div class="content-product">
+          <a class="content-product__media" href="https://www.korendy.com.tr/products/arencia-rice-mucin-glow-serum-30"><img src="https://cdn.shopify.com/s/files/1/2357/8799/files/Arencia-RiceMucinGlowSerum30Korendy1.png?width=600" alt="Arencia - Rice Mucin Glow Serum 30 (Cilt Parlatıcı ve Berrak Görünüm Verici Nemlendirici 3 Çeşit Pirinçli Jel Dokulu Serum) 50g" loading="lazy"></a>
+          <div class="content-product__body">
+            <p class="content-product__eyebrow">Işıltı Kaynağı</p>
+            <div class="content-product__text">
+              <h3 class="content-product__name"><a href="https://www.korendy.com.tr/products/arencia-rice-mucin-glow-serum-30">Arencia - Rice Mucin Glow Serum 30 (Cilt Parlatıcı ve Berrak Görünüm Verici Nemlendirici 3 Çeşit Pirinçli Jel Dokulu Serum) 50g</a></h3>
+              <p class="content-product__desc">Pirinç özleri ve müsinle cildi ağırlaştırmadan aydınlatır; donukluğu alarak cam gibi bir yansıma kazandırır.</p>
+            </div>
+            <a class="content-product__cta" href="https://www.korendy.com.tr/products/arencia-rice-mucin-glow-serum-30">Ürünü İncele</a>
+          </div>
+        </div>
+        <div class="content-product">
+          <a class="content-product__media" href="https://www.korendy.com.tr/products/snature-aqua-squalane-moisturizing-cream"><img src="https://cdn.shopify.com/s/files/1/2357/8799/files/Aqua_Squalane_Moisturizing_Cream_Korendy_1.png?width=600" alt="S.NATURE - Aqua Squalane Moisturizing Cream (Dehidrasyon ve Gözenek Önleyici Squalane ve Aquaxyl İçeren Nemlendirici Krem) 80ml" loading="lazy"></a>
+          <div class="content-product__body">
+            <p class="content-product__eyebrow">Nem Bazı</p>
+            <div class="content-product__text">
+              <h3 class="content-product__name"><a href="https://www.korendy.com.tr/products/snature-aqua-squalane-moisturizing-cream">S.NATURE - Aqua Squalane Moisturizing Cream (Dehidrasyon ve Gözenek Önleyici Squalane ve Aquaxyl İçeren Nemlendirici Krem) 80ml</a></h3>
+              <p class="content-product__desc">Skualan ve hyaluronik asitle cildi derinlemesine nemlendirir, gün boyu yumuşak ve esnek hissettirir.</p>
+            </div>
+            <a class="content-product__cta" href="https://www.korendy.com.tr/products/snature-aqua-squalane-moisturizing-cream">Ürünü İncele</a>
+          </div>
+        </div>
+        <div class="content-product">
+          <a class="content-product__media" href="https://www.korendy.com.tr/products/beauty-of-joseon-relief-sun-rice-probiotics-spf50-pa"><img src="https://cdn.shopify.com/s/files/1/2357/8799/files/Beauty_of_Joseon_-_Relief_Sun__Rice_SPF50_PA_Korendy_1_b7d0fa07-4b1c-4e7d-af08-fe3c91ae85f9.png?width=600" alt="Beauty of Joseon - Relief Sun: Rice + Niacinamide SPF50+ PA++++ (%30 Pirinç Özlü Su Bazlı Güneş Kremi) 50ml" loading="lazy"></a>
+          <div class="content-product__body">
+            <p class="content-product__eyebrow">Günlük Koruma</p>
+            <div class="content-product__text">
+              <h3 class="content-product__name"><a href="https://www.korendy.com.tr/products/beauty-of-joseon-relief-sun-rice-probiotics-spf50-pa">Beauty of Joseon - Relief Sun: Rice + Niacinamide SPF50+ PA++++ (%30 Pirinç Özlü Su Bazlı Güneş Kremi) 50ml</a></h3>
+              <p class="content-product__desc">Pirinç ve probiyotiklerle zenginleştirilmiş hafif formülü, beyaz iz bırakmadan yüksek koruma sağlar.</p>
+            </div>
+            <a class="content-product__cta" href="https://www.korendy.com.tr/products/beauty-of-joseon-relief-sun-rice-probiotics-spf50-pa">Ürünü İncele</a>
+          </div>
+        </div>
+        <div class="content-product">
+          <a class="content-product__media" href="https://www.korendy.com.tr/products/klairs-vita-c-vitamin-drop-serum"><img src="https://cdn.shopify.com/s/files/1/2357/8799/files/KlairVitaCVitaminDropKorendy1.jpg?width=600" alt="Klairs - Vita C Vitamin Drop (Parlatıcı Çoklu Vitamin Serumu) 35ml" loading="lazy"></a>
+          <div class="content-product__body">
+            <p class="content-product__eyebrow">Editörün Seçimi</p>
+            <div class="content-product__text">
+              <h3 class="content-product__name"><a href="https://www.korendy.com.tr/products/klairs-vita-c-vitamin-drop-serum">Klairs - Vita C Vitamin Drop (Parlatıcı Çoklu Vitamin Serumu) 35ml</a></h3>
+              <p class="content-product__desc">Bu ürünün neden bu yazının konusuna uygun olduğunu anlatan bir veya iki cümle.</p>
+            </div>
+            <a class="content-product__cta" href="https://www.korendy.com.tr/products/klairs-vita-c-vitamin-drop-serum">Ürünü İncele</a>
+          </div>
+        </div>
+        <div class="content-product">
+          <a class="content-product__media" href="https://www.korendy.com.tr/products/klairs-supple-preparation-facial-toner-180ml"><img src="https://cdn.shopify.com/s/files/1/2357/8799/products/KlairsGentleSupplePreparationFacialTonerKorendy2_c6914306-397a-48af-882b-7745b2b1cab8.jpg?width=600" alt="Klairs - Supple Preparation Facial Toner (pH Dengeleyici Besleyici Tonik)" loading="lazy"></a>
+          <div class="content-product__body">
+            <p class="content-product__eyebrow">Editörün Seçimi</p>
+            <div class="content-product__text">
+              <h3 class="content-product__name"><a href="https://www.korendy.com.tr/products/klairs-supple-preparation-facial-toner-180ml">Klairs - Supple Preparation Facial Toner (pH Dengeleyici Besleyici Tonik)</a></h3>
+              <p class="content-product__desc">Bu ürünün neden bu yazının konusuna uygun olduğunu anlatan bir veya iki cümle.</p>
+            </div>
+            <a class="content-product__cta" href="https://www.korendy.com.tr/products/klairs-supple-preparation-facial-toner-180ml">Ürünü İncele</a>
+          </div>
+        </div>
+        <div class="content-product">
+          <a class="content-product__media" href="https://www.korendy.com.tr/products/klairs-midnight-blue-calming-cream"><img src="https://cdn.shopify.com/s/files/1/2357/8799/files/KlairsMidnightBlueCalmingCreamKorendy1_03c2fd23-28cd-4a04-a185-99e934a53fcc.jpg?width=600" alt="Klairs - Midnight Blue Calming Cream (Yatıştırıcı Onarıcı Centella Kremi)" loading="lazy"></a>
+          <div class="content-product__body">
+            <p class="content-product__eyebrow">Editörün Seçimi</p>
+            <div class="content-product__text">
+              <h3 class="content-product__name"><a href="https://www.korendy.com.tr/products/klairs-midnight-blue-calming-cream">Klairs - Midnight Blue Calming Cream (Yatıştırıcı Onarıcı Centella Kremi)</a></h3>
+              <p class="content-product__desc">Bu ürünün neden bu yazının konusuna uygun olduğunu anlatan bir veya iki cümle.</p>
+            </div>
+            <a class="content-product__cta" href="https://www.korendy.com.tr/products/klairs-midnight-blue-calming-cream">Ürünü İncele</a>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-block" id="img">
+      <header class="demo-block__head">
+        <h2 class="demo-block__title">Görsel (.content-img)</h2>
+        <p class="demo-block__desc">Yazı içindeki tek görseller için: ortalanır, köşeleri yuvarlatılır, altında boşluk bırakır. Büyük görseller sütuna sığacak şekilde küçülür.</p>
+      </header>
+      <div class="demo-example content-rte">
+        <img class="content-img" src="https://cdn.shopify.com/s/files/1/2357/8799/articles/Kapak_70.png?width=1200" alt="Korendy blog görseli" width="640" loading="lazy">
+      </div>
+    </section>
+
+    <section class="demo-block" id="cards">
+      <header class="demo-block__head">
+        <h2 class="demo-block__title">Kartlar (.content-cards / .content-card)</h2>
+        <p class="demo-block__desc">Yan yana kartlar: ayın ürünleri, yeni markalar, ekip favorileri gibi paralel içerikler için.</p>
+      </header>
+      <div class="demo-example content-rte">
+        <div class="content-cards">
+          <div class="content-card"><h3 class="content-card__title">Ocak'ın Yıldızı</h3><p>Kış kuruluğuna karşı en çok tercih edilen nemlendirici, bu ay da listenin başında.</p></div>
+          <div class="content-card"><h3 class="content-card__title">Yeni Marka</h3><p>Kore'den yeni gelen markamızla tanışın: hassas ciltler için nazik formüller.</p></div>
+          <div class="content-card"><h3 class="content-card__title">Ekibin Favorisi</h3><p>Bu ay Korendy ekibinden Beyza, vazgeçilmez güneş koruyucusunu paylaşıyor.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-block" id="cta-cards">
+      <header class="demo-block__head">
+        <h2 class="demo-block__title">CTA kartları (.content-cta-cards / .content-cta-card)</h2>
+        <p class="demo-block__desc">Görselli kartlar: ilgili yazılar, kampanyalar veya koleksiyonlar için. Her kartta görsel, başlık, açıklama ve ok işaretli bağlantı var; bağlantılar satır boyunca aynı hizada durur.</p>
+      </header>
+      <div class="demo-example content-rte">
+        <div class="content-cta-cards">
+          <div class="content-cta-card">
+            <a class="content-cta-card__media" href="https://www.korendy.com.tr/blogs/korendy-blog/pdrn-2-0-artik-sadece-serumlarda-degil-her-yerde"><img src="https://cdn.shopify.com/s/files/1/2357/8799/articles/Kapak_70.png?width=800" alt="PDRN 2.0: Artık Sadece Serumlarda Değil Her Yerde!" loading="lazy"></a>
+            <div class="content-cta-card__body">
+              <h3 class="content-cta-card__title"><a href="https://www.korendy.com.tr/blogs/korendy-blog/pdrn-2-0-artik-sadece-serumlarda-degil-her-yerde">PDRN 2.0: Artık Sadece Serumlarda Değil Her Yerde!</a></h3>
+              <p class="content-cta-card__desc">PDRN artık sadece serumlarda değil! Renkli kremlerden göz ve dudak bakımına, şampuandan saç derisi serumu ve vücut kremine…</p>
+              <a class="content-cta-card__link" href="https://www.korendy.com.tr/blogs/korendy-blog/pdrn-2-0-artik-sadece-serumlarda-degil-her-yerde">Yazıyı Oku</a>
+            </div>
+          </div>
+          <div class="content-cta-card">
+            <a class="content-cta-card__media" href="https://www.korendy.com.tr/blogs/korendy-blog/katseye-yoonchae-nin-makyaja-hazirlik-rutini"><img src="https://cdn.shopify.com/s/files/1/2357/8799/articles/Kapak_14_4ff633c8-9326-4b2b-b96d-a6694a98aa1d.png?width=800" alt="KATSEYE Yoonchae’nin Makyaja Hazırlık Rutini: K-Beauty Favorileri" loading="lazy"></a>
+            <div class="content-cta-card__body">
+              <h3 class="content-cta-card__title"><a href="https://www.korendy.com.tr/blogs/korendy-blog/katseye-yoonchae-nin-makyaja-hazirlik-rutini">KATSEYE Yoonchae’nin Makyaja Hazırlık Rutini: K-Beauty Favorileri</a></h3>
+              <p class="content-cta-card__desc">KATSEYE Yoonchae’nin makyaja hazırlık rutinini keşfedin: Anua, Torriden ve Round Lab ile soobooji cilt için 4 adımlı K-Beauty…</p>
+              <a class="content-cta-card__link" href="https://www.korendy.com.tr/blogs/korendy-blog/katseye-yoonchae-nin-makyaja-hazirlik-rutini">Yazıyı Oku</a>
+            </div>
+          </div>
+          <div class="content-cta-card">
+            <a class="content-cta-card__media" href="https://www.korendy.com.tr/blogs/korendy-blog/bakim-dusta-baslar-fravita-vitaminli-dus-filtreleri-ne-ise-yarar"><img src="https://cdn.shopify.com/s/files/1/2357/8799/articles/Kapak_13_87ff718f-0ab7-4537-a8c9-3cadbdc8765c.png?width=800" alt="Fravita Vitaminli Duş Filtreleri: Ne İşe Yarar, Hangisi Seçilmeli?" loading="lazy"></a>
+            <div class="content-cta-card__body">
+              <h3 class="content-cta-card__title"><a href="https://www.korendy.com.tr/blogs/korendy-blog/bakim-dusta-baslar-fravita-vitaminli-dus-filtreleri-ne-ise-yarar">Fravita Vitaminli Duş Filtreleri: Ne İşe Yarar, Hangisi Seçilmeli?</a></h3>
+              <p class="content-cta-card__desc">Vitaminli ve aromalı Fravita duş filtreleri ne işe yarar? Faydalarını, koku seçeneklerini, kurulumunu ve size uygun filtreyi nasıl…</p>
+              <a class="content-cta-card__link" href="https://www.korendy.com.tr/blogs/korendy-blog/bakim-dusta-baslar-fravita-vitaminli-dus-filtreleri-ne-ise-yarar">Yazıyı Oku</a>
+            </div>
+          </div>
+          <div class="content-cta-card">
+            <a class="content-cta-card__media" href="https://www.korendy.com.tr/blogs/korendy-blog/kusursuz-sonbahar-aksaminin-formulu-maskeni-sur-mumunu-yak-ve-filmini-baslat"><img src="https://cdn.shopify.com/s/files/1/2357/8799/articles/Kapak_12_d04ad9de-5dd7-457a-a6c5-2b0f0af6cd90.png?width=800" alt="Kusursuz Sonbahar Akşamı: Gece Maskesi, Mum ve Film Ritüeli" loading="lazy"></a>
+            <div class="content-cta-card__body">
+              <h3 class="content-cta-card__title"><a href="https://www.korendy.com.tr/blogs/korendy-blog/kusursuz-sonbahar-aksaminin-formulu-maskeni-sur-mumunu-yak-ve-filmini-baslat">Kusursuz Sonbahar Akşamı: Gece Maskesi, Mum ve Film Ritüeli</a></h3>
+              <p class="content-cta-card__desc">Sonbahar akşamı ritüeli: Kukka mumlarla ortamı hazırlayın, cildinize uygun K-Beauty gece maskesini seçin ve film keyfini Korendy önerileriyle…</p>
+              <a class="content-cta-card__link" href="https://www.korendy.com.tr/blogs/korendy-blog/kusursuz-sonbahar-aksaminin-formulu-maskeni-sur-mumunu-yak-ve-filmini-baslat">Yazıyı Oku</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-block" id="box">
+      <header class="demo-block__head">
+        <h2 class="demo-block__title">Çerçeveli blok (.content-box)</h2>
+        <p class="demo-block__desc">Editör notu, ipucu, özet veya uyarı için. Başlığı makale içindeki H2 ile aynı görünür, ama 'Bu sayfada' listesine eklenmez.</p>
+      </header>
+      <div class="demo-example content-rte">
+        <div class="content-box">
+          <h2 class="content-box__title">Doğru Uygulama Sırası</h2>
+          <p>Ürünler, en hafif dokudan en yoğuna doğru sürüldüğünde cilt tarafından çok daha iyi emilir. Akşam rutininiz için temel sıra şöyle:</p>
+          <ol>
+            <li>Yağ bazlı temizleyici ve ardından su bazlı temizleyici</li>
+            <li>Tonik veya tonik ped</li>
+            <li>Esans, serum ve ampul</li>
+            <li>Nemlendirici krem</li>
+          </ol>
+          <p>Sabah rutininizi ise her zaman güneş koruyucuyla tamamlayın.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-block" id="blockquote">
+      <header class="demo-block__head">
+        <h2 class="demo-block__title">Alıntı (blockquote)</h2>
+        <p class="demo-block__desc">Kısa bir alıntı veya öne çıkan cümle. Sınıf gerekmez; her &lt;blockquote&gt; bu şekilde görünür.</p>
+      </header>
+      <div class="demo-example content-rte">
+        <blockquote><p>Cilt bakımında en önemli adım, her gün düzenli olarak güneş koruyucu kullanmaktır.</p></blockquote>
+      </div>
+    </section>
+
+    <section class="demo-block" id="cta">
+      <header class="demo-block__head">
+        <h2 class="demo-block__title">Kapanış CTA (.content-cta)</h2>
+        <p class="demo-block__desc">Yazının sonunda bir davet ve buton. Yazı başına en fazla bir tane, en sonda. Başlığı H2 ile aynı görünür, ama 'Bu sayfada' listesine eklenmez.</p>
+      </header>
+      <div class="demo-example content-rte">
+        <div class="content-cta">
+          <h2 class="content-cta__title">Işıltılı Bir Cilde İlk Adımı At</h2>
+          <p>Bu yazıda bahsettiğimiz ürünlerin tamamı orijinallik garantisiyle Korendy'de. Cilt tipine uygun ürünleri seç, rutinini bugün oluşturmaya başla.</p>
+          <a class="content-cta__button" href="https://www.korendy.com.tr/collections/all">Ürünleri Keşfet</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
